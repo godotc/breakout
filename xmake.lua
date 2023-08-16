@@ -15,6 +15,7 @@ add_packages("glfw","glm","stb","glad","fmt")
 add_packages("libsdl" ,"libsdl_mixer")
 
 add_includedirs("./pkgs/")
+add_includedirs("./include/")
 
 
 local audio_backend = "sdl";

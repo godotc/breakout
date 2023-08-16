@@ -10,6 +10,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <property.h>
+
 
 
 static std::vector<bool> &GetChannelStates()
@@ -26,22 +28,12 @@ class SDL_Chunk
 {
 
   public:
-    SDL_Chunk()
-    {
-    }
+    SDL_Chunk() {}
 
 
-    SDL_Chunk(const char *path)
-    {
-        LoadWave(path);
-    }
+    SDL_Chunk(const char *path) { LoadWave(path); }
 
     void LoadWave(const char *path, bool bReverseSample = false);
-
-    bool IsPlaying(int chan)
-    {
-        return false;
-    }
 
     void Clear()
     {
@@ -73,11 +65,6 @@ class SDL_Chunk
     Mix_Chunk *wave      = {nullptr};
     bool       bValid    = {false};
     bool       bReversed = {false};
-
-    // max is 128
-    // int    audio_volume    = {MIX_MAX_VOLUME};
-    // int    audio_frequency = {MIX_DEFAULT_FREQUENCY};
-    // Uint16 audio_format    = {MIX_DEFAULT_FORMAT};
 };
 
 
@@ -108,13 +95,14 @@ class SDL_Player
     // Pause of a channel will be seen as playing
     bool IsPlaying();
 
-    void PostEffects()
+    void PostEffects(int chan)
     {
-        if (bPanning)
+        // TODO: Post effects for every single channel
+        if (GetbPanning())
             do_panning_update();
-        if (bChangingDistance)
+        if (GetbChangingDistance())
             do_distance_update();
-        if (bChangingDistance)
+        if (GetbChangingDistance())
             do_position_update();
     }
 
@@ -162,12 +150,13 @@ class SDL_Player
 
     bool bAudioOpen = false;
 
+    // Now We use these as glboal effect
     // sround
-    bool bPanning = {false};
+    PROPERTY(bool, bPanning, false);
     // far to near...
-    bool bChangingDistance = {false};
+    PROPERTY(bool, bChangingDistance, false);
     // left to right
-    bool bChaningLocation = {false};
+    PROPERTY(bool, bChaningLocation, false);
 
 
   private:

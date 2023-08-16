@@ -108,8 +108,13 @@ SDL_Player::SDL_Player()
     PostPrecessThread = std::thread([&] {
         while (bAudioOpen) {
             if (IsPlaying()) {
-                PostEffects();
-                SDL_Delay(1);
+                // const auto &chans = GetChannelStates();
+                // for (int i = 0; i < chans.size(); ++i) {
+                    // if (chans[i]) {
+                        PostEffects(-1);
+                        SDL_Delay(1);
+                    // }
+                // }
             }
         }
     });
@@ -293,7 +298,7 @@ void SDL_Player::do_panning_update()
 
     if (panning_ok && (SDL_GetTicks() >= next_panning_updtae))
     {
-        panning_ok = Mix_SetPanning(0, left_vol, right_vol);
+        panning_ok = Mix_SetPanning(-1, left_vol, right_vol);
 
         if (!panning_ok)
         {
