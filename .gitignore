@@ -1,0 +1,15 @@
+# Xmake cache
+.xmake/
+build/
+
+# MacOS Cache
+.DS_Store
+
+.cache
+.fleet
+.vscode
+
+
+cmake-build-*
+
+pkgs/irrKlang-64bit-1.6.0
